@@ -39,7 +39,16 @@ public class Users {
     }
     	
 	@RequestMapping("/login")
-	public String login() {
+	public String login(@RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model) {
+		System.out.print("Came here");
+		if(error != null) {
+			System.out.println("Came in the error");
+			model.addAttribute("errorMessage", "Invalid Credentials, Please try again.");
+		}
+		if(logout != null) {
+			System.out.println("Came in the logut");
+			model.addAttribute("logoutMessage", "Logout Successfull!");
+		}
 		return "loginPage.jsp";
 	}
 

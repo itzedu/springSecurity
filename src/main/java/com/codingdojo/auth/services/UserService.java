@@ -48,16 +48,4 @@ public class UserService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-    
-    
-    public void authenticate(String username, String password) {
-      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-      UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-
-      authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
-      if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-          SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-      }
-    }
 }
