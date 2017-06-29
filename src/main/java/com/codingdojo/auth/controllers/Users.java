@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingdojo.auth.models.User;
 import com.codingdojo.auth.services.UserService;
+import com.codingdojo.auth.validator.UserValidator;
 
 @Controller
 public class Users {
     private UserService userService;
     
-    public Users(UserService userService) {
+    private UserValidator userValidator;
+    
+    public Users(UserService userService, UserValidator userValidator) {
     	this.userService = userService;
+    	this.userValidator = userValidator;
     }
 	
 	@RequestMapping("/registration")
@@ -30,18 +34,17 @@ public class Users {
 	
     @PostMapping("/registration")
     public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
+        userValidator.validate(user, result);
+
         if (result.hasErrors()) {
-            return "registration.jsp";
+            return "registrationPage.jsp";
         }
         userService.saveWithUserRole(user);
-//        securityService.autoLogin(user.getUsername(), user.getPasswordConfirmation());
-//        session.setAttribute("user", currentUser.getId());
         return "redirect:/login";
     }
     	
 	@RequestMapping("/login")
 	public String login(@RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model) {
-		System.out.print("Came here");
 		if(error != null) {
 			System.out.println("Came in the error");
 			model.addAttribute("errorMessage", "Invalid Credentials, Please try again.");
