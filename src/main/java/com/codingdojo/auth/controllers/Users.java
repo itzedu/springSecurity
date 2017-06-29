@@ -1,6 +1,7 @@
 package com.codingdojo.auth.controllers;
 
-import javax.servlet.http.HttpSession;
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,7 @@ public class Users {
 	}
 	
     @PostMapping("/registration")
-    public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session) {
+    public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "registration.jsp";
         }
@@ -54,13 +55,9 @@ public class Users {
 
 	
 	@RequestMapping(value = {"/", "/home"})
-	public String home() {
+	public String home(Principal principal, Model model) {
+		String username = principal.getName();
+		model.addAttribute("currentUser", userService.findByUsername(username));
 		return "homePage.jsp";
-	}
-	
-	@PostMapping("/logout")
-	public String logout() {
-//		HttpServletRequest.logout();
-		return "redirect:/login";
 	}
 }

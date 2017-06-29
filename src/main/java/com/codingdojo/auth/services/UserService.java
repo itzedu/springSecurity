@@ -31,17 +31,17 @@ public class UserService {
     
     
     // 1
-    public User saveWithUserRole(User user) {
+    public void saveWithUserRole(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findByName("user"));
-        return userRepository.save(user);
+        userRepository.save(user);
     }
    
    // 2 
-    public User saveWithUserAndAdminRole(User user) {
+    public void saveWithUserAndAdminRole(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findAll());
-        return userRepository.save(user);
+        userRepository.save(user);
     }  
     
     // 3
