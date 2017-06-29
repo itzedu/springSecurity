@@ -39,7 +39,9 @@ public class Users {
         if (result.hasErrors()) {
             return "registrationPage.jsp";
         }
-        userService.saveWithUserRole(user);
+//        userService.saveWithUserAndAdminRole(user);
+        userService.saveUserWithAdminRole(user);
+
         return "redirect:/login";
     }
     	
@@ -62,5 +64,12 @@ public class Users {
 		String username = principal.getName();
 		model.addAttribute("currentUser", userService.findByUsername(username));
 		return "homePage.jsp";
+	}
+	
+	@RequestMapping("/admin")
+	public String adminPage(Principal principal, Model model) {
+		String username = principal.getName();
+		model.addAttribute("currentUser", userService.findByUsername(username));
+		return "adminPage.jsp";
 	}
 }

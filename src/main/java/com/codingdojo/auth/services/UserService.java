@@ -24,7 +24,7 @@ public class UserService {
     // 1
     public void saveWithUserRole(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(roleRepository.findByName("user"));
+        user.setRoles(roleRepository.findByName("ROLE_USER"));
         userRepository.save(user);
     }
    
@@ -32,6 +32,12 @@ public class UserService {
     public void saveWithUserAndAdminRole(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findAll());
+        userRepository.save(user);
+    }  
+    
+    public void saveUserWithAdminRole(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(roleRepository.findByName("ROLE_ADMIN"));
         userRepository.save(user);
     }  
     
